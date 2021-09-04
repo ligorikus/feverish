@@ -5,7 +5,7 @@ namespace App\Mediators;
 
 
 use App\Repositories\Repository;
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Transformers\APIFractalManager;
 use League\Fractal\TransformerAbstract;
 
@@ -21,5 +21,5 @@ interface MediatorInterface
 
     public function setTransformer(TransformerAbstract $transformer): Mediator;
 
-    public function setService(Service $service): Mediator;
+    public function setService(BaseService $service): Mediator;
 }

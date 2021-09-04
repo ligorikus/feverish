@@ -5,7 +5,7 @@ namespace App\Mediators;
 
 
 use App\Repositories\Repository;
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Transformers\APIFractalManager;
 use League\Fractal\TransformerAbstract;
 
@@ -16,7 +16,7 @@ use League\Fractal\TransformerAbstract;
  * @property APIFractalManager $fractalManager
  * @property Repository $repository
  * @property TransformerAbstract $transformer
- * @property Service $service
+ * @property BaseService $service
  */
 abstract class Mediator implements MediatorInterface
 {
@@ -36,9 +36,9 @@ abstract class Mediator implements MediatorInterface
     public TransformerAbstract $transformer;
 
     /**
-     * @var Service
+     * @var BaseService
      */
-    public Service $service;
+    public BaseService $service;
 
     /**
      * @param APIFractalManager $fractalManager
@@ -70,7 +70,7 @@ abstract class Mediator implements MediatorInterface
         return $this;
     }
 
-    public function setService(Service $service): Mediator
+    public function setService(BaseService $service): Mediator
     {
         $this->service = $service;
         return $this;

@@ -13,7 +13,7 @@ use Throwable;
  * Class BaseService
  * @package App\Services
  */
-abstract class Service implements ServiceInterface
+abstract class BaseService implements ServiceInterface
 {
     /**
      * Конструктор
