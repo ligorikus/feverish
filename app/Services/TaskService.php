@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class TaskService extends BaseService
 {
+    /**
+     * @param User $user
+     * @param Task $task
+     * @return int
+     */
     public function markCompleted(User $user, Task $task)
     {
-
+        return DB::table('user_tasks')
+            ->where('user_id', $user->id)
+            ->where('task_id', $task->id)
+            ->update(['is_completed' => true]);
     }
 
     /**

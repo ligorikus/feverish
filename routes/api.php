@@ -24,5 +24,5 @@ Route::post('register', [RegistrationController::class, 'register']);
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('tasks', [TaskController::class, 'makeCompilation']);
-    Route::put('{task}/completed', [TaskController::class, 'markCompleted']);
+    Route::put('tasks/{task}/completed', [TaskController::class, 'markCompleted']);
 });

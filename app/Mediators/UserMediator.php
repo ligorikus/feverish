@@ -2,6 +2,7 @@
 
 namespace App\Mediators;
 
+use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Transformers\APIFractalManager;
 use App\Transformers\UserTransformer;
@@ -18,10 +19,12 @@ class UserMediator extends Mediator
         APIFractalManager $fractalManager,
         UserTransformer $transformer,
         UserService $service,
+        UserRepository $repository
     )
     {
         $this->setFractalManager($fractalManager)
             ->setTransformer($transformer)
-            ->setService($service);
+            ->setService($service)
+            ->setRepository($repository);
     }
 }

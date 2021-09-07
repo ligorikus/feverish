@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mediators\TaskMediator;
+use App\Mediators\UserMediator;
 use App\Models\Task;
 use App\Models\User;
 use App\Transformers\UserTasksTransformer;
@@ -17,11 +18,17 @@ class TaskController extends Controller
     private TaskMediator $taskMediator;
 
     /**
+     * @var UserMediator $userMediator
+     */
+    private UserMediator $userMediator;
+
+    /**
      * @param TaskMediator $taskMediator
      */
-    public function __construct(TaskMediator $taskMediator)
+    public function __construct(TaskMediator $taskMediator, UserMediator $userMediator)
     {
         $this->taskMediator = $taskMediator;
+        $this->userMediator = $userMediator;
     }
 
     /**
@@ -45,11 +52,18 @@ class TaskController extends Controller
         ));
     }
 
-    public function markCompleted(Task $task)
+    /**
+     * @param Task $task
+     * @return JsonResponse
+     */
+    public function markCompleted(Task $task): JsonResponse
     {
         /** @var User $user */
         $user = auth()->user();
         $this->taskMediator->service->markCompleted($user, $task);
-
+        $userTask = $this->userMediator->repository->getUserTaskById($user, $task);
+        return $this->respondWithSuccess($this->taskMediator->fractalManager->item(
+            $userTask, new UserTasksTransformer
+        ));
     }
 }

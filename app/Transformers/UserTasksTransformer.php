@@ -23,7 +23,7 @@ class UserTasksTransformer extends TransformerAbstract
     public function transform(Task $task): array
     {
         return [
-            'isCompleted' => $task->pivot->is_completed,
+            'isCompleted' => (bool)$task->pivot->is_completed,
             'date' => $task->pivot->date
         ];
     }

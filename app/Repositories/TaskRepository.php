@@ -36,7 +36,11 @@ class TaskRepository extends Repository
             ->get();
     }
 
-    public function getTodayTasks(User $user)
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getTodayTasks(User $user): mixed
     {
         return $this->startConditions()
             ->whereHas('users', function (Builder $query) use ($user) {
