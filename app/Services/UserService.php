@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class UserService extends BaseService
 {
@@ -13,6 +14,7 @@ class UserService extends BaseService
      */
     public function create($className, array $data): Model
     {
+        $data['password'] = Hash::make($data['password']);
         return $className::create($data);
     }
 }

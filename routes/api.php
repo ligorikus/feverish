@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('register', [RegistrationController::class, 'register']);
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('tasks', [TaskController::class, 'makeCompilation']);
+    Route::put('{task}/completed', [TaskController::class, 'markCompleted']);
+});

@@ -40,9 +40,9 @@ abstract class Repository implements RepositoryInterface
     /**
      * Возращает клон текущей модели.
      *
-     * @return mixed
+     * @return Model
      */
-    protected function startConditions(): mixed
+    protected function startConditions(): Model
     {
         return clone $this->model;
     }

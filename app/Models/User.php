@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Task::class, 'user_tasks');
     }
+
+    public function findForPassport($username)
+    {
+        return $this->where('email', $username)->orWhere('name', $username)->first();
+    }
 }
