@@ -43,7 +43,6 @@ class TaskController extends Controller
         if ($todayTasks->count() === 0) {
             $uniqueTasks = $this->taskMediator->repository->getUniqueTasks($user, 7);
             $this->taskMediator->service->createUserTasks($user, $uniqueTasks);
-
         }
 
         $userTasks = $user->tasks;
@@ -62,6 +61,26 @@ class TaskController extends Controller
         $user = auth()->user();
         $this->taskMediator->service->markCompleted($user, $task);
         $userTask = $this->userMediator->repository->getUserTaskById($user, $task);
+        return $this->respondWithSuccess($this->taskMediator->fractalManager->item(
+            $userTask, new UserTasksTransformer
+        ));
+    }
+
+    public function changeTask(Task $task): JsonResponse
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        if ($user->tasks->where('id', $task->id)->count() === 0) {
+            abort(404);
+        }
+
+        $uniqueTask = $this->taskMediator->repository->getUniqueTasks($user, 1)->first();
+        $this->taskMediator->service->attachTaskToUser($user, $uniqueTask);
+        $this->taskMediator->service->detachTaskFromUser($user, $task);
+
+        $userTask = $this->userMediator->repository->getUserTaskById($user, $uniqueTask);
+
         return $this->respondWithSuccess($this->taskMediator->fractalManager->item(
             $userTask, new UserTasksTransformer
         ));

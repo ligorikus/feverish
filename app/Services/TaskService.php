@@ -40,4 +40,32 @@ class TaskService extends BaseService
         })->toArray();
         return DB::table('user_tasks')->insert($userTasksToStore);
     }
+
+    /**
+     * @param User $user
+     * @param Task $task
+     * @return bool
+     */
+    public function attachTaskToUser(User $user, Task $task): bool
+    {
+        return DB::table('user_tasks')->insert([
+            'user_id' => $user->id,
+            'task_id' => $task->id,
+            'is_completed' => false,
+            'date' => Carbon::today()
+        ]);
+    }
+
+    /**
+     * @param User $user
+     * @param Task $task
+     * @return int
+     */
+    public function detachTaskFromUser(User $user, Task $task): int
+    {
+        return DB::table('user_tasks')
+            ->where('user_id', $user->id)
+            ->where('task_id', $task->id)
+            ->delete();
+    }
 }
