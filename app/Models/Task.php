@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,4 +47,6 @@ class Task extends Model
     {
         return $this->belongsToMany(User::class, 'user_tasks');
     }
+
+
 }

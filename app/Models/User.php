@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -15,6 +16,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int id
  * @property string name
  * @property string email
+ *
+ * @property Task|Collection tasks
  */
 class User extends Authenticatable
 {
@@ -55,7 +58,7 @@ class User extends Authenticatable
      */
     public function tasks(): BelongsToMany
     {
-        return $this->belongsToMany(Task::class, 'user_tasks');
+        return $this->belongsToMany(Task::class, 'user_tasks')->withPivot('is_completed', 'date');
     }
 
     public function findForPassport($username)

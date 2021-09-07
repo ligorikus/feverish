@@ -7,26 +7,24 @@ use JetBrains\PhpStorm\ArrayShape;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 
-class TaskTransformer extends TransformerAbstract
+class UserTasksTransformer extends TransformerAbstract
 {
     /**
      * @var string[]
      */
     protected $defaultIncludes = [
-        'category'
+        'task'
     ];
 
     /**
      * @param Task $task
      * @return array
      */
-    #[ArrayShape(['id' => "int", 'title' => "string", 'description' => "string"])]
     public function transform(Task $task): array
     {
         return [
-            'id' => $task->id,
-            'title' => $task->title,
-            'description' => $task->description,
+            'isCompleted' => $task->pivot->is_completed,
+            'date' => $task->pivot->date
         ];
     }
 
@@ -34,8 +32,8 @@ class TaskTransformer extends TransformerAbstract
      * @param Task $task
      * @return Item
      */
-    public function includeCategory(Task $task): Item
+    public function includeTask(Task $task): Item
     {
-        return $this->item($task->category, new CategoryTransformer);
+        return $this->item($task, new TaskTransformer);
     }
 }

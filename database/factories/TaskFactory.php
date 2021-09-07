@@ -25,7 +25,7 @@ class TaskFactory extends Factory
     {
         return [
             'category_id' => $this->faker->randomElement(Category::all()),
-            'title' => $this->faker->name,
+            'title' => $this->faker->company,
             'description' => $this->faker->text,
         ];
     }
